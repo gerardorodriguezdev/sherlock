@@ -1,24 +1,23 @@
 [versions]
-agp = "8.7.3"
-android-compileSdk = "35"
-android-minSdk = "35"
-android-targetSdk = "35"
-androidx-activity = "1.10.1"
-androidx-lifecycle = "2.9.1"
-composeMultiplatform = "1.8.2"
-kotlin = "2.2.0"
-android-mlkit = "16.0.1"
+kmp = "2.2.0"
+kmpCompose = "1.8.2"
+androidAGP = "8.7.3"
+androidMinSdk = "35"
+androidTargetSdk = "35"
+androidActivity = "1.10.1"
+androidLifecycle = "2.9.1"
+androidMLKit = "16.0.1"
+androidLeakCanary = "2.14"
 
 [libraries]
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
-androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
-android-text-recognition = { group = "com.google.mlkit", name = "text-recognition", version.ref = "android-mlkit" }
+androidActivity = { module = "androidx.activity:activity-compose", version.ref = "androidActivity" }
+androidViewModel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidLifecycle" }
+androidMLKit = { group = "com.google.mlkit", name = "text-recognition", version.ref = "androidMLKit" }
+androidLeakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "androidLeakCanary" }
 
 [plugins]
-androidApplication = { id = "com.android.application", version.ref = "agp" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
-composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
-composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+androidApplication = { id = "com.android.application", version.ref = "androidAGP" }
+androidLibrary = { id = "com.android.library", version.ref = "androidAGP" }
+kmp = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kmp" }
+kmpCompose = { id = "org.jetbrains.compose", version.ref = "kmpCompose" }
+kmpComposeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kmp" }

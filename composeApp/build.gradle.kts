@@ -2,10 +2,10 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kmp)
+    alias(libs.plugins.kmpCompose)
+    alias(libs.plugins.kmpComposeCompiler)
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
@@ -24,22 +24,17 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-        }
-
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(libs.androidViewModel)
         }
 
         androidMain.dependencies {
             implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.android.text.recognition)
+            implementation(libs.androidActivity)
+            implementation(libs.androidMLKit)
 
             project.dependencies {
                 debugImplementation(compose.uiTooling)
-                debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
+                debugImplementation(libs.androidLeakCanary)
             }
         }
     }
@@ -48,12 +43,12 @@ kotlin {
 
 android {
     namespace = "org.sherlock.sherlock"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = libs.versions.androidTargetSdk.get().toInt()
 
     defaultConfig {
         applicationId = "org.sherlock.sherlock"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        targetSdk = libs.versions.androidTargetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
     }
