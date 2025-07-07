@@ -7,12 +7,14 @@ androidx-activity = "1.10.1"
 androidx-lifecycle = "2.9.1"
 composeMultiplatform = "1.8.2"
 kotlin = "2.2.0"
+android-mlkit = "16.0.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+android-text-recognition = { group = "com.google.mlkit", name = "text-recognition", version.ref = "android-mlkit" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

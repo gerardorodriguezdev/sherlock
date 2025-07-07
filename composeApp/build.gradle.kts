@@ -35,13 +35,16 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.android.text.recognition)
 
             project.dependencies {
                 debugImplementation(compose.uiTooling)
+                debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
             }
         }
     }
 }
+
 
 android {
     namespace = "org.sherlock.sherlock"
@@ -69,4 +72,3 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-
