@@ -1,6 +1,7 @@
 package org.sherlock.sherlock
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -16,20 +17,26 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App(
     onSelectImage: () -> Unit,
+    onProcessAllImages: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     MaterialTheme {
         Scaffold(
             modifier = modifier,
         ) { scaffoldPadding ->
-            Box(
-                contentAlignment = Alignment.Center,
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(scaffoldPadding)
             ) {
                 Button(onClick = onSelectImage) {
                     Text("Select an image")
+                }
+
+                Button(onClick = onProcessAllImages) {
+                    Text("Process all images")
                 }
             }
         }
