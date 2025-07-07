@@ -12,8 +12,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
@@ -21,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.sherlock.sherlock.ui.screens.MainScreen
 import java.io.IOException
 
 class MainActivity : ComponentActivity() {
@@ -47,7 +46,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            App(
+            MainScreen(
                 onSelectImage = {
                     selectImage()
                 },
@@ -110,13 +109,4 @@ class MainActivity : ComponentActivity() {
 
             return@withContext uris
         }
-}
-
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    App(
-        onSelectImage = {},
-        onProcessAllImages = {},
-    )
 }
