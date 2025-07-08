@@ -97,12 +97,11 @@ fun AppScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    items(items = images, contentType = { IMAGE_COMPONENT_CONTENT_TYPE }) { item ->
+                    items(items = images, contentType = { IMAGE_COMPONENT_CONTENT_TYPE }, key = { it }) { item ->
                         ImageComponent(
                             key = item,
-                            modifier = Modifier.clickable {
-                                dialogImage = item
-                            },
+                            modifier = Modifier
+                                .clickable { dialogImage = item },
                         )
                     }
                 }
@@ -112,12 +111,9 @@ fun AppScreen(
         dialogImage?.let {
             Dialog(
                 onDismissRequest = { dialogImage = null },
-                properties = DialogProperties(
-                    usePlatformDefaultWidth = false,
-                    //decorFitsSystemWindows = false,
-                )
+                properties = DialogProperties(usePlatformDefaultWidth = false)
             ) {
-                ZoomableImageComponent(key = it, modifier = Modifier.fillMaxSize())
+                ZoomableImageComponent(key = it, modifier = Modifier.fillMaxWidth())
             }
         }
     }
