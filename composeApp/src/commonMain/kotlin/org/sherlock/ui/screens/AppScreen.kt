@@ -1,4 +1,4 @@
-package org.sherlock.sherlock.ui.screens
+package org.sherlock.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

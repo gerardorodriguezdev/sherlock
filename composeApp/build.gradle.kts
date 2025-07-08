@@ -46,7 +46,7 @@ android {
     compileSdk = libs.versions.androidTargetSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.sherlock.sherlock"
+        applicationId = "org.sherlock"
         minSdk = libs.versions.androidMinSdk.get().toInt()
         targetSdk = libs.versions.androidTargetSdk.get().toInt()
         versionCode = 1

@@ -1,4 +1,4 @@
-package org.sherlock.sherlock
+package org.sherlock
 
 import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.content.ContentResolver
@@ -19,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.sherlock.sherlock.ui.screens.MainScreen
+import org.sherlock.ui.screens.MainScreen
 import java.io.IOException
 
 class MainActivity : ComponentActivity() {
