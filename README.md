@@ -1,0 +1,11 @@
+# Sherlock
+
+Mobile app that uses ML Kit text recognition to extract text from images and search through them
+
+## How It Works
+
+1. **Image Selection**: Select multiple images from the device gallery
+2. **Text Processing**: The app uses extracts the text from each selected image
+3. **Indexing**: Extracted text is tokenized and indexed for fast searching
+4. **Search**: Search for any word found in any of the images
+5. **Display**: Matching images are displayed
