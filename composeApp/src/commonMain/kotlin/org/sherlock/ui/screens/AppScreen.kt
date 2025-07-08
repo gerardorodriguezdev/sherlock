@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun MainScreen(
     onSelectImage: () -> Unit,
-    onProcessAllImages: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     MaterialTheme {
@@ -33,10 +32,6 @@ fun MainScreen(
                 Button(onClick = onSelectImage) {
                     Text("Select an image")
                 }
-
-                Button(onClick = onProcessAllImages) {
-                    Text("Process all images")
-                }
             }
         }
     }
@@ -47,6 +42,5 @@ fun MainScreen(
 private fun MainScreenPreview() {
     MainScreen(
         onSelectImage = {},
-        onProcessAllImages = {},
     )
 }
