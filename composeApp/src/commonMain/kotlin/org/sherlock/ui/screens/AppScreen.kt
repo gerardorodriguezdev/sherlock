@@ -13,9 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
+//TODO: Finish ui
 @Composable
 fun MainScreen(
     onSelectImage: () -> Unit,
+    onSearchImage: (text: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     MaterialTheme {
@@ -32,6 +34,10 @@ fun MainScreen(
                 Button(onClick = onSelectImage) {
                     Text("Select an image")
                 }
+
+                Button(onClick = {}) {
+                    Text("Search image")
+                }
             }
         }
     }
@@ -42,5 +48,6 @@ fun MainScreen(
 private fun MainScreenPreview() {
     MainScreen(
         onSelectImage = {},
+        onSearchImage = {},
     )
 }
