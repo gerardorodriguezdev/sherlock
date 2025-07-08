@@ -30,7 +30,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.kmpCoil)
             implementation(libs.kmpImmutable)
-            implementation(libs.kmpNavigation)
         }
 
         androidMain.dependencies {

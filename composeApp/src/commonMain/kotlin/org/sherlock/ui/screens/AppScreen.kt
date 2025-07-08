@@ -1,5 +1,8 @@
 package org.sherlock.ui.screens
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -14,25 +17,31 @@ import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import org.sherlock.ui.components.ImageComponent
 import org.sherlock.ui.screens.AppScreenConstants.IMAGE_COMPONENT_CONTENT_TYPE
 
 @Composable
-fun MainScreen(
+fun AppScreen(
     images: ImmutableList<String>,
-    onSearchImage: (text: CharSequence) -> Unit,
-    onSelectImages: () -> Unit,
+    onSearchImage: (text: String) -> Unit,
+    onSelectImagesClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     MaterialTheme {
+        var dialogImage by remember { mutableStateOf<String?>(null) }
+
         NavigationSuiteScaffold(
             navigationSuiteItems = {
                 item(
@@ -63,7 +72,7 @@ fun MainScreen(
                     OutlinedTextField(
                         state = state,
                         trailingIcon = {
-                            IconButton(onClick = { onSearchImage(state.text) }) {
+                            IconButton(onClick = { onSearchImage(state.text.toString()) }) {
                                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
                             }
                         },
@@ -73,11 +82,11 @@ fun MainScreen(
                         lineLimits = TextFieldLineLimits.SingleLine,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                         onKeyboardAction = KeyboardActionHandler {
-                            onSearchImage(state.text)
+                            onSearchImage(state.text.toString())
                         }
                     )
 
-                    IconButton(onClick = { onSelectImages() }) {
+                    IconButton(onClick = { onSelectImagesClicked() }) {
                         Icon(imageVector = Icons.Default.ImageSearch, contentDescription = "Select images")
                     }
                 }
@@ -89,12 +98,51 @@ fun MainScreen(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     items(items = images, contentType = { IMAGE_COMPONENT_CONTENT_TYPE }) { item ->
-                        ImageComponent(item)
+                        ImageComponent(
+                            key = item,
+                            modifier = Modifier.clickable {
+                                dialogImage = item
+                            },
+                        )
                     }
                 }
             }
         }
+
+        dialogImage?.let {
+            Dialog(
+                onDismissRequest = { dialogImage = null },
+                properties = DialogProperties(
+                    usePlatformDefaultWidth = false,
+                    //decorFitsSystemWindows = false,
+                )
+            ) {
+                ZoomableImageComponent(key = it, modifier = Modifier.fillMaxSize())
+            }
+        }
     }
+}
+
+@Composable
+private fun ZoomableImageComponent(key: String, modifier: Modifier) {
+    var scale by remember { mutableFloatStateOf(1f) }
+    var offset by remember { mutableStateOf(Offset.Zero) }
+    val state = rememberTransformableState { zoomChange, offsetChange, rotationChange ->
+        scale *= zoomChange
+        offset += offsetChange
+    }
+
+    ImageComponent(
+        key = key,
+        modifier = modifier
+            .graphicsLayer(
+                scaleX = scale,
+                scaleY = scale,
+                translationX = offset.x,
+                translationY = offset.y
+            )
+            .transformable(state = state)
+    )
 }
 
 private object AppScreenConstants {
@@ -104,9 +152,9 @@ private object AppScreenConstants {
 @Preview
 @Composable
 private fun MainScreenPreview() {
-    MainScreen(
+    AppScreen(
         images = persistentListOf(),
-        onSelectImages = {},
+        onSelectImagesClicked = {},
         onSearchImage = {},
     )
 }

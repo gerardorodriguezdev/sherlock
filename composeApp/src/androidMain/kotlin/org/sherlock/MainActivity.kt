@@ -17,7 +17,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.sherlock.processor.Image
 import org.sherlock.processor.TextExtractor
-import org.sherlock.ui.screens.MainScreen
+import org.sherlock.ui.screens.AppScreen
 
 class MainActivity : ComponentActivity() {
     private val selectImages = registerForActivityResult(
@@ -35,10 +35,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MainScreen(
+            AppScreen(
                 images = images.value,
-                onSearchImage = { searchImage(it.toString()) },
-                onSelectImages = { selectImages() },
+                onSearchImage = { searchImage(it) },
+                onSelectImagesClicked = { selectImages() },
             )
         }
     }

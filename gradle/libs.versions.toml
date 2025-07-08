@@ -3,7 +3,6 @@ kmp = "2.2.0"
 kmpCompose = "1.9.0-alpha03"
 kmpCoil = "3.2.0"
 kmpImmutable = "0.4.0"
-kmpNavigation = "2.9.0-beta03"
 androidAGP = "8.10.0"
 androidMinSdk = "35"
 androidTargetSdk = "35"
@@ -15,7 +14,6 @@ androidLeakCanary = "2.14"
 [libraries]
 kmpCoil = { module = "io.coil-kt.coil3:coil-compose", version.ref = "kmpCoil" }
 kmpImmutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kmpImmutable" }
-kmpNavigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "kmpNavigation" }
 androidActivity = { module = "androidx.activity:activity-compose", version.ref = "androidActivity" }
 androidViewModel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidLifecycle" }
 androidMLKit = { group = "com.google.mlkit", name = "text-recognition", version.ref = "androidMLKit" }
