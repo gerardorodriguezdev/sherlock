@@ -2,17 +2,18 @@ package org.sherlock
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickMultipleVisualMedia
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.compose.runtime.mutableStateOf
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import org.sherlock.processor.Constants.LOG_TAG
 import org.sherlock.processor.Image
 import org.sherlock.processor.TextExtractor
 import org.sherlock.ui.screens.MainScreen
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
     private val scope = MainScope()
     private val textExtractor: TextExtractor
         get() = (application as SherlockApplication).textExtractor
+    private val images = mutableStateOf(persistentListOf<String>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -32,12 +34,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MainScreen(
-                onSelectImage = {
-                    selectImages()
-                },
-                onSearchImage = {
-                    // TODO: Finish connecting
-                },
+                images = images.value,
+                onSearchImage = { searchImage(it.toString()) },
+                onSelectImages = { selectImages() },
             )
         }
     }
@@ -56,8 +55,7 @@ class MainActivity : ComponentActivity() {
 
     private fun searchImage(text: String) {
         scope.launch {
-            //TODO: Connect to ui
-            Log.d(LOG_TAG, textExtractor.search(text).toString())
+            images.value = textExtractor.search(text).toPersistentList()
         }
     }
 
