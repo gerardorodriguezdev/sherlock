@@ -102,6 +102,7 @@ fun AppScreen(
                         columns = GridCells.Fixed(if (images.size > 1) 2 else 1),
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         items(items = images, contentType = { IMAGE_COMPONENT_CONTENT_TYPE }, key = { it }) { item ->

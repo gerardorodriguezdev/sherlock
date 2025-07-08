@@ -9,3 +9,11 @@ Mobile app that uses ML Kit text recognition to extract text from images and sea
 3. **Indexing**: Extracted text is tokenized and indexed for fast searching
 4. **Search**: Search for any word found in any of the images
 5. **Display**: Matching images are displayed
+
+## Showcase
+
+<img src="/assets/Empty.png" alt="Empty case" width="240">
+
+<img src="/assets/Match.png" alt="Match case" width="240">
+
+<img src="/assets/Zoom.png" alt="Zoom case" width="240">
