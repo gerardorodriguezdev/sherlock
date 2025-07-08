@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -48,7 +49,7 @@ fun AppScreen(
                     selected = true,
                     onClick = {},
                     icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                    label = { Text(text = "Home") },
+                    label = { Text(text = "Home", textAlign = TextAlign.Center) },
                 )
             },
             modifier = modifier,
@@ -83,27 +84,35 @@ fun AppScreen(
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                         onKeyboardAction = KeyboardActionHandler {
                             onSearchImage(state.text.toString())
-                        }
+                        },
+                        placeholder = { Text(text = "Search...") },
                     )
 
-                    IconButton(onClick = { onSelectImagesClicked() }) {
+                    OutlinedIconButton(onClick = { onSelectImagesClicked() }) {
                         Icon(imageVector = Icons.Default.ImageSearch, contentDescription = "Select images")
                     }
                 }
 
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    items(items = images, contentType = { IMAGE_COMPONENT_CONTENT_TYPE }, key = { it }) { item ->
-                        ImageComponent(
-                            key = item,
-                            modifier = Modifier
-                                .clickable { dialogImage = item },
-                        )
+                if (images.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(text = "No matches found", textAlign = TextAlign.Center)
                     }
+                } else {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(if (images.size > 1) 2 else 1),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        items(items = images, contentType = { IMAGE_COMPONENT_CONTENT_TYPE }, key = { it }) { item ->
+                            ImageComponent(
+                                key = item,
+                                modifier = Modifier
+                                    .clickable { dialogImage = item },
+                            )
+                        }
+                    }
+
                 }
             }
         }
