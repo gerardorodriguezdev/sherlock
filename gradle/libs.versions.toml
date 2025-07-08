@@ -1,7 +1,7 @@
 [versions]
 kmp = "2.2.0"
 kmpCompose = "1.8.2"
-androidAGP = "8.7.3"
+androidAGP = "8.10.0"
 androidMinSdk = "35"
 androidTargetSdk = "35"
 androidActivity = "1.10.1"
