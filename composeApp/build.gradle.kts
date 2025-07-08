@@ -44,7 +44,7 @@ kotlin {
 
 
 android {
-    namespace = "org.sherlock.sherlock"
+    namespace = "org.sherlock"
     compileSdk = libs.versions.androidTargetSdk.get().toInt()
 
     defaultConfig {
