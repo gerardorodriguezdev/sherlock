@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
         callback = { uris -> processImages(uris) }
     )
     private val scope = MainScope()
+    private var currentJob: Job? = null
     private val textExtractor: TextExtractor
         get() = (application as SherlockApplication).textExtractor
     private val images = mutableStateOf(persistentListOf<String>())
@@ -46,22 +48,25 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun processImages(uris: List<Uri>) {
-        val images = uris.map { Image(uri = it) }
+        currentJob?.cancel()
 
-        scope.launch {
+        currentJob = scope.launch {
+            val images = uris.map { Image(uri = it) }
+
             textExtractor.processImages(images)
         }
     }
 
     private fun searchImage(text: String) {
-        scope.launch {
+        currentJob?.cancel()
+
+        currentJob = scope.launch {
             images.value = textExtractor.search(text).toPersistentList()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
         scope.cancel()
     }
 }

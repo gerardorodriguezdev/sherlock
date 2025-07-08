@@ -3,6 +3,7 @@ package org.sherlock.processor
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 class TextExtractor(
     private val imageProcessor: ImageProcessor,
@@ -11,6 +12,9 @@ class TextExtractor(
     private val entries = mutableMapOf<String, Set<String>>()
 
     suspend fun processImages(images: List<Image>) {
+        entries.clear()
+
+        val parentContext = coroutineContext
         withContext(dispatchersProvider.io()) {
             val entries = images
                 .map { image ->
@@ -19,7 +23,7 @@ class TextExtractor(
                 .awaitAll()
                 .filterNotNull()
 
-            withContext(dispatchersProvider.ui()) {
+            withContext(parentContext) {
                 this@TextExtractor.entries.putAll(entries)
             }
         }
@@ -37,8 +41,9 @@ class TextExtractor(
     private fun String.toTokens(): Set<String> =
         regex.findAll(this).map { matchResult -> matchResult.value.lowercase() }.toSet()
 
-    suspend fun search(text: String): List<String> =
-        withContext(dispatchersProvider.io()) {
+    suspend fun search(text: String): List<String> {
+        val parentContext = coroutineContext
+        return withContext(dispatchersProvider.io()) {
             val searchTokens = text.toTokens()
 
             val keys = entries
@@ -51,10 +56,11 @@ class TextExtractor(
                 .awaitAll()
                 .filterNotNull()
 
-            withContext(dispatchersProvider.ui()) {
+            withContext(parentContext) {
                 keys
             }
         }
+    }
 
     private fun Set<String>.containsAny(strings: Set<String>): Boolean =
         any { strings.contains(it) }
