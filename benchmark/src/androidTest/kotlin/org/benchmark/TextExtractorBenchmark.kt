@@ -1,7 +1,7 @@
 package org.benchmark
 
+import android.net.Uri
 import androidx.benchmark.ExperimentalBenchmarkConfigApi
-import androidx.benchmark.MicrobenchmarkConfig
 import androidx.benchmark.junit4.BenchmarkRule
 import androidx.benchmark.junit4.measureRepeated
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -14,14 +14,17 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.sherlock.processor.AndroidDispatcherProvider
 import org.sherlock.processor.AndroidImageProcessor
+import org.sherlock.processor.Image
 import org.sherlock.processor.TextExtractor
+import java.io.File
+import java.io.FileOutputStream
 
 @RunWith(AndroidJUnit4::class)
 class TextExtractorBenchmark {
 
     @OptIn(ExperimentalBenchmarkConfigApi::class)
     @get:Rule
-    val benchmarkRule = BenchmarkRule(config = MicrobenchmarkConfig())
+    val benchmarkRule = BenchmarkRule()
 
     private lateinit var textExtractor: TextExtractor
     private val entries = mutableMapOf<String, HashSet<String>>()
@@ -38,7 +41,11 @@ class TextExtractorBenchmark {
     @Test
     fun processImages() {
         benchmarkRule.measureRepeated {
-
+            val images = runWithMeasurementDisabled { images() }
+            runBlocking {
+                textExtractor.processImages(images)
+            }
+            assertEquals(5, entries.size)
         }
     }
 
@@ -57,20 +64,42 @@ class TextExtractorBenchmark {
             runWithMeasurementDisabled { addEntries() }
 
             runBlocking {
-                textExtractor.search("One")
+                val results = textExtractor.search("One")
+                assertEquals(1_000, results.size)
             }
         }
     }
 
+    private fun images(): List<Image> = buildList {
+        repeat(5) { index ->
+            val imageName = imageName(index)
+            val inputStream = javaClass.classLoader?.getResourceAsStream(imageName)
+                ?: throw IllegalStateException("$imageName resource not found")
+            val cacheFile = File(InstrumentationRegistry.getInstrumentation().targetContext.cacheDir, imageName)
+            inputStream.use { input ->
+                FileOutputStream(cacheFile).use { output ->
+                    input.copyTo(output)
+                }
+            }
+            add(Image(uri = Uri.fromFile(cacheFile)))
+        }
+    }
+
     private fun sampleText(): String {
-        val inputStream = javaClass.classLoader?.getResourceAsStream("SampleText.txt")
-            ?: throw IllegalStateException("SampleText.txt resource not found")
+        val inputStream = javaClass.classLoader?.getResourceAsStream(SAMPLE_FILE_NAME)
+            ?: throw IllegalStateException("$SAMPLE_FILE_NAME resource not found")
         return inputStream.bufferedReader().use { resource -> resource.readText() }
     }
 
     private fun addEntries() {
         repeat(1_000) { index ->
-            entries.put(index.toString(), hashSetOf("One", "Two", "Three", "Four", "Five"))
+            entries.put(index.toString(), tokens)
         }
+    }
+
+    companion object {
+        const val SAMPLE_FILE_NAME = "SampleText.txt"
+        val tokens = hashSetOf("one", "two", "three", "four", "five")
+        fun imageName(index: Int): String = "img${index}.jpg"
     }
 }

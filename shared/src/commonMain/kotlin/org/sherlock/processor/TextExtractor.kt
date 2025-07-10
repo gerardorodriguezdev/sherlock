@@ -46,9 +46,9 @@ class TextExtractor(
             val searchTokens = text.toTokens()
 
             val keys = entries
-                .map { (key, value) ->
+                .map { (key, tokens) ->
                     async {
-                        val entryContainsToken = value.containsAny(searchTokens)
+                        val entryContainsToken = tokens.containsAny(searchTokens)
                         if (entryContainsToken) key else null
                     }
                 }
@@ -61,8 +61,8 @@ class TextExtractor(
         }
     }
 
-    private fun HashSet<String>.containsAny(strings: HashSet<String>): Boolean =
-        any { string -> strings.contains(string) }
+    private fun HashSet<String>.containsAny(searchTokens: HashSet<String>): Boolean =
+        any { token -> searchTokens.contains(token) }
 
     private companion object {
         val regex = Regex("\\b\\w+\\b")
