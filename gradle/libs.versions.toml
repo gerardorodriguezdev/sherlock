@@ -14,6 +14,7 @@ androidLeakCanary = "2.14"
 androidRunner = "1.5.2"
 androidBenchmark = "1.4.0-rc01"
 androidJunit = "1.2.1"
+androidOrchestrator = "1.5.1"
 
 [libraries]
 kmpCoil = { module = "io.coil-kt.coil3:coil-compose", version.ref = "kmpCoil" }
@@ -26,6 +27,7 @@ androidLeakCanary = { module = "com.squareup.leakcanary:leakcanary-android", ver
 androidRunner = { group = "androidx.test", name = "runner", version.ref = "androidRunner" }
 androidJunit = { group = "androidx.test.ext", name = "junit", version.ref = "androidJunit" }
 androidBenchmark = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "androidBenchmark" }
+androidOrchestrator = { module = "androidx.test:orchestrator", version.ref = "androidOrchestrator" }
 
 [plugins]
 kmp = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kmp" }

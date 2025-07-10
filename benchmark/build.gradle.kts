@@ -18,6 +18,10 @@ android {
 
         testInstrumentationRunner = "androidx.benchmark.junit4.AndroidBenchmarkRunner"
         testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
+    }
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
     }
 
     testBuildType = "release"
@@ -42,4 +46,5 @@ dependencies {
     androidTestImplementation(libs.androidJunit)
     androidTestImplementation(libs.jvmJunit)
     androidTestImplementation(libs.androidBenchmark)
+    androidTestUtil(libs.androidOrchestrator)
 }
