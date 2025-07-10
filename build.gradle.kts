@@ -6,4 +6,6 @@ plugins {
     alias(libs.plugins.kmpCompose) apply false
     alias(libs.plugins.kmpComposeCompiler) apply false
     alias(libs.plugins.kmp) apply false
+    alias(libs.plugins.androidBenchmark) apply false
+    alias(libs.plugins.androidKotlin) apply false
 }
