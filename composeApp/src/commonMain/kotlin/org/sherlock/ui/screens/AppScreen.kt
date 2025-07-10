@@ -62,59 +62,15 @@ fun AppScreen(
                     .padding(top = 16.dp)
                     .safeDrawingPadding()
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                ) {
-                    val textFieldState = rememberTextFieldState()
-                    OutlinedTextField(
-                        state = textFieldState,
-                        trailingIcon = {
-                            IconButton(onClick = { onSearchImage(textFieldState.text.toString()) }) {
-                                Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
-                            }
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
-                        lineLimits = TextFieldLineLimits.SingleLine,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                        onKeyboardAction = KeyboardActionHandler {
-                            onSearchImage(textFieldState.text.toString())
-                        },
-                        placeholder = { Text(text = "Search...") },
-                    )
+                SearchBar(
+                    onSearchImage = onSearchImage,
+                    onSelectImagesClicked = onSelectImagesClicked,
+                )
 
-                    OutlinedIconButton(onClick = { onSelectImagesClicked() }) {
-                        Icon(imageVector = Icons.Default.ImageSearch, contentDescription = "Select images")
-                    }
-                }
-
-                if (images.isEmpty()) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(text = "No matches found", textAlign = TextAlign.Center)
-                    }
-                } else {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(if (images.size > 1) 2 else 1),
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        items(items = images, contentType = { IMAGE_COMPONENT_CONTENT_TYPE }, key = { it }) { item ->
-                            ImageComponent(
-                                key = item,
-                                modifier = Modifier
-                                    .clickable { dialogImage = item },
-                            )
-                        }
-                    }
-
-                }
+                Content(
+                    images = images,
+                    onImageClick = { dialogImage = it },
+                )
             }
         }
 
@@ -127,6 +83,72 @@ fun AppScreen(
             }
         }
     }
+}
+
+@Composable
+fun SearchBar(
+    onSearchImage: (String) -> Unit,
+    onSelectImagesClicked: () -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        val textFieldState = rememberTextFieldState()
+        OutlinedTextField(
+            state = textFieldState,
+            trailingIcon = {
+                IconButton(onClick = { onSearchImage(textFieldState.text.toString()) }) {
+                    Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            lineLimits = TextFieldLineLimits.SingleLine,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            onKeyboardAction = KeyboardActionHandler {
+                onSearchImage(textFieldState.text.toString())
+            },
+            placeholder = { Text(text = "Search...") },
+        )
+
+        OutlinedIconButton(onClick = { onSelectImagesClicked() }) {
+            Icon(imageVector = Icons.Default.ImageSearch, contentDescription = "Select images")
+        }
+    }
+}
+
+@Composable
+private fun Content(
+    images: ImmutableList<String>,
+    onImageClick: (String) -> Unit,
+) {
+    if (images.isEmpty()) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(text = "No matches found", textAlign = TextAlign.Center)
+        }
+    } else {
+        val columns = if (images.size > 1) 2 else 1
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(columns),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            items(items = images, contentType = { IMAGE_COMPONENT_CONTENT_TYPE }, key = { it }) { image ->
+                ImageComponent(
+                    key = image,
+                    modifier = Modifier.clickable { onImageClick(image) },
+                )
+            }
+        }
+    }
+
 }
 
 @Composable

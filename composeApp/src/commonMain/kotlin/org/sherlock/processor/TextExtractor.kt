@@ -62,8 +62,7 @@ class TextExtractor(
         }
     }
 
-    private fun Set<String>.containsAny(strings: Set<String>): Boolean =
-        any { strings.contains(it) }
+    private fun Set<String>.containsAny(strings: Set<String>): Boolean = any { strings.contains(it) }
 
     private companion object {
         val regex = Regex("\\b\\w+\\b")

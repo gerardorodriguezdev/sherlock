@@ -6,7 +6,6 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.suspendCancellableCoroutine
-import org.sherlock.processor.Constants.LOG_TAG
 import java.io.IOException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -32,4 +31,8 @@ class AndroidImageProcessor(private val applicationContext: Context) : ImageProc
             Log.d(LOG_TAG, "Error processing image", e)
             null
         }
+
+    private companion object {
+        const val LOG_TAG = "Sherlock"
+    }
 }
