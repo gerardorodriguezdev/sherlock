@@ -1,6 +1,5 @@
 package org.sherlock
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,27 +7,28 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickMultipleVisualMedia
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
-import androidx.compose.runtime.mutableStateOf
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import androidx.activity.viewModels
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import org.sherlock.presentation.MainViewModel
 import org.sherlock.processor.Image
-import org.sherlock.processor.TextExtractor
 import org.sherlock.ui.screens.AppScreen
 
 class MainActivity : ComponentActivity() {
+    private val mainViewModel: MainViewModel by viewModels {
+        viewModelFactory {
+            initializer {
+                MainViewModel(textExtractor = (application as SherlockApplication).textExtractor)
+            }
+        }
+    }
     private val selectImages = registerForActivityResult(
         contract = PickMultipleVisualMedia(),
-        callback = { uris -> processImages(uris) }
+        callback = { uris ->
+            val images = uris.map { Image(uri = it) }
+            mainViewModel.processImages(images)
+        }
     )
-    private val scope = MainScope()
-    private var currentJob: Job? = null
-    private val textExtractor: TextExtractor
-        get() = (application as SherlockApplication).textExtractor
-    private val images = mutableStateOf(persistentListOf<String>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -36,8 +36,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AppScreen(
-                images = images.value,
-                onSearchImage = { searchImage(it) },
+                images = mainViewModel.images.value,
+                onSearchImage = { mainViewModel.searchImage(it) },
                 onSelectImagesClicked = { selectImages() },
             )
         }
@@ -45,28 +45,5 @@ class MainActivity : ComponentActivity() {
 
     private fun selectImages() {
         selectImages.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
-    }
-
-    private fun processImages(uris: List<Uri>) {
-        currentJob?.cancel()
-
-        currentJob = scope.launch {
-            val images = uris.map { Image(uri = it) }
-
-            textExtractor.processImages(images)
-        }
-    }
-
-    private fun searchImage(text: String) {
-        currentJob?.cancel()
-
-        currentJob = scope.launch {
-            images.value = textExtractor.search(text).toPersistentList()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        scope.cancel()
     }
 }

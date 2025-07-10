@@ -22,6 +22,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.kmpCoil)
             implementation(libs.kmpImmutable)
+            implementation(libs.kmpViewModel)
         }
 
         androidMain.dependencies {

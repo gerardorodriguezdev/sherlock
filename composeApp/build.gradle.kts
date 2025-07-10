@@ -22,6 +22,7 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(libs.kmpImmutable)
+            implementation(libs.kmpViewModel)
             implementation(project(":shared"))
         }
 
