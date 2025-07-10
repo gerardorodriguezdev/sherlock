@@ -74,12 +74,12 @@ fun AppScreen(
             }
         }
 
-        dialogImage?.let {
+        dialogImage?.let { key ->
             Dialog(
                 onDismissRequest = { dialogImage = null },
                 properties = DialogProperties(usePlatformDefaultWidth = false)
             ) {
-                ZoomableImageComponent(key = it, modifier = Modifier.fillMaxWidth())
+                ZoomableImageComponent(key = key, modifier = Modifier.fillMaxWidth())
             }
         }
     }

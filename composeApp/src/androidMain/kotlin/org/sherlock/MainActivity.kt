@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
     private val selectImages = registerForActivityResult(
         contract = PickMultipleVisualMedia(),
         callback = { uris ->
-            val images = uris.map { Image(uri = it) }
+            val images = uris.map { uri -> Image(uri = uri) }
             mainViewModel.processImages(images)
         }
     )
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppScreen(
                 images = mainViewModel.images.value,
-                onSearchImage = { mainViewModel.searchImage(it) },
+                onSearchImage = { image -> mainViewModel.searchImage(image) },
                 onSelectImagesClicked = { selectImages() },
             )
         }
