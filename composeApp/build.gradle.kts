@@ -21,22 +21,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.material3AdaptiveNavigationSuite)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.kmpCoil)
             implementation(libs.kmpImmutable)
+            implementation(project(":shared"))
         }
 
         androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidViewModel)
             implementation(libs.androidActivity)
-            implementation(libs.androidMLKit)
 
             project.dependencies {
                 debugImplementation(compose.uiTooling)
