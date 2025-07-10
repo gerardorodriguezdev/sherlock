@@ -69,11 +69,11 @@ fun AppScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                 ) {
-                    val state = rememberTextFieldState()
+                    val textFieldState = rememberTextFieldState()
                     OutlinedTextField(
-                        state = state,
+                        state = textFieldState,
                         trailingIcon = {
-                            IconButton(onClick = { onSearchImage(state.text.toString()) }) {
+                            IconButton(onClick = { onSearchImage(textFieldState.text.toString()) }) {
                                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
                             }
                         },
@@ -83,7 +83,7 @@ fun AppScreen(
                         lineLimits = TextFieldLineLimits.SingleLine,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                         onKeyboardAction = KeyboardActionHandler {
-                            onSearchImage(state.text.toString())
+                            onSearchImage(textFieldState.text.toString())
                         },
                         placeholder = { Text(text = "Search...") },
                     )
