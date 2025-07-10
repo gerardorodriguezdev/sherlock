@@ -8,9 +8,8 @@ import kotlin.coroutines.coroutineContext
 class TextExtractor(
     private val imageProcessor: ImageProcessor,
     private val dispatchersProvider: DispatchersProvider,
+    private val entries: MutableMap<String, HashSet<String>> = mutableMapOf()
 ) {
-    private val entries = mutableMapOf<String, Set<String>>()
-
     suspend fun processImages(images: List<Image>) {
         entries.clear()
 
@@ -29,7 +28,7 @@ class TextExtractor(
         }
     }
 
-    private suspend fun Image.processImage(): Pair<String, Set<String>>? {
+    private suspend fun Image.processImage(): Pair<String, HashSet<String>>? {
         val text = imageProcessor.processImage(this)
         val tokens = text?.toTokens()
 
@@ -38,8 +37,8 @@ class TextExtractor(
         }
     }
 
-    fun String.toTokens(): Set<String> =
-        regex.findAll(this).map { matchResult -> matchResult.value.lowercase() }.toSet()
+    fun String.toTokens(): HashSet<String> =
+        regex.findAll(this).map { matchResult -> matchResult.value.lowercase() }.toHashSet()
 
     suspend fun search(text: String): List<String> {
         val parentContext = coroutineContext
@@ -62,7 +61,7 @@ class TextExtractor(
         }
     }
 
-    private fun Set<String>.containsAny(strings: Set<String>): Boolean = any { strings.contains(it) }
+    private fun HashSet<String>.containsAny(strings: HashSet<String>): Boolean = any { strings.contains(it) }
 
     private companion object {
         val regex = Regex("\\b\\w+\\b")
