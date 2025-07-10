@@ -12,7 +12,7 @@ androidActivity = "1.10.1"
 androidMLKit = "16.0.1"
 androidLeakCanary = "2.14"
 androidRunner = "1.5.2"
-androidBenchmark = "1.2.4"
+androidBenchmark = "1.4.0-rc01"
 androidJunit = "1.2.1"
 
 [libraries]

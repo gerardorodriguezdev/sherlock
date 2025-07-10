@@ -69,7 +69,7 @@ fun AppScreen(
 
                 Content(
                     images = images,
-                    onImageClick = { dialogImage = it },
+                    onImageClick = { image -> dialogImage = image },
                 )
             }
         }
@@ -140,7 +140,7 @@ private fun Content(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxSize(),
         ) {
-            items(items = images, contentType = { IMAGE_COMPONENT_CONTENT_TYPE }, key = { it }) { image ->
+            items(items = images, contentType = { IMAGE_COMPONENT_CONTENT_TYPE }, key = { image -> image }) { image ->
                 ImageComponent(
                     key = image,
                     modifier = Modifier.clickable { onImageClick(image) },
