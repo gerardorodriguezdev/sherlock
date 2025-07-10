@@ -38,7 +38,7 @@ class TextExtractor(
         }
     }
 
-    private fun String.toTokens(): Set<String> =
+    fun String.toTokens(): Set<String> =
         regex.findAll(this).map { matchResult -> matchResult.value.lowercase() }.toSet()
 
     suspend fun search(text: String): List<String> {

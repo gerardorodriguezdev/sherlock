@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    androidTestImplementation(project(":shared"))
     androidTestImplementation(libs.androidRunner)
     androidTestImplementation(libs.androidJunit)
     androidTestImplementation(libs.jvmJunit)
