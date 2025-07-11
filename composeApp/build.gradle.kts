@@ -31,7 +31,6 @@ kotlin {
 
             project.dependencies {
                 debugImplementation(compose.uiTooling)
-                debugImplementation(libs.androidLeakCanary)
             }
         }
     }

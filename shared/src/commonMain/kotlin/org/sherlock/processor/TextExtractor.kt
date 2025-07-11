@@ -1,5 +1,6 @@
 package org.sherlock.processor
 
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
@@ -14,7 +15,7 @@ class TextExtractor(
         entries.clear()
 
         val parentContext = coroutineContext
-        withContext(dispatchersProvider.io()) {
+        withContext(dispatchersProvider.io() + processImagesCoroutineName) {
             val entries = images
                 .map { image ->
                     async { image.processImage() }
@@ -42,7 +43,7 @@ class TextExtractor(
 
     suspend fun search(text: String): List<String> {
         val parentContext = coroutineContext
-        return withContext(dispatchersProvider.io()) {
+        return withContext(dispatchersProvider.io() + searchTokensCoroutineName) {
             val searchTokens = text.toTokens()
 
             val keys = entries
@@ -66,5 +67,7 @@ class TextExtractor(
 
     private companion object {
         val regex = Regex("\\b\\w+\\b")
+        val processImagesCoroutineName = CoroutineName("ProcessImages")
+        val searchTokensCoroutineName = CoroutineName("SearchTokens")
     }
 }
