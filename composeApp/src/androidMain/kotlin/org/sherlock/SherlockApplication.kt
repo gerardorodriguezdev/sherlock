@@ -3,6 +3,7 @@ package org.sherlock
 import android.app.Application
 import org.sherlock.processor.AndroidDispatcherProvider
 import org.sherlock.processor.AndroidImageProcessor
+import org.sherlock.processor.AndroidTracer
 import org.sherlock.processor.TextExtractor
 
 class SherlockApplication : Application() {
@@ -16,6 +17,7 @@ class SherlockApplication : Application() {
         textExtractor = TextExtractor(
             imageProcessor = AndroidImageProcessor(this),
             dispatchersProvider = AndroidDispatcherProvider(),
+            tracer = AndroidTracer(),
         )
     }
 }

@@ -14,6 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.sherlock.processor.AndroidDispatcherProvider
 import org.sherlock.processor.AndroidImageProcessor
+import org.sherlock.processor.EmptyTracer
 import org.sherlock.processor.Image
 import org.sherlock.processor.TextExtractor
 import java.io.File
@@ -34,6 +35,7 @@ class TextExtractorBenchmark {
         textExtractor = TextExtractor(
             imageProcessor = AndroidImageProcessor(InstrumentationRegistry.getInstrumentation().targetContext),
             dispatchersProvider = AndroidDispatcherProvider(),
+            tracer = EmptyTracer(),
             entries = entries,
         )
     }

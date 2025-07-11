@@ -9,9 +9,11 @@ import kotlin.coroutines.coroutineContext
 class TextExtractor(
     private val imageProcessor: ImageProcessor,
     private val dispatchersProvider: DispatchersProvider,
+    private val tracer: Tracer,
     private val entries: MutableMap<String, HashSet<String>> = mutableMapOf()
 ) {
     suspend fun processImages(images: List<Image>) {
+        tracer.startTrace(PROCESS_IMAGES_TRACE_NAME)
         entries.clear()
 
         val parentContext = coroutineContext
@@ -25,6 +27,7 @@ class TextExtractor(
 
             withContext(parentContext) {
                 this@TextExtractor.entries.putAll(entries)
+                tracer.stopTrace()
             }
         }
     }
@@ -42,6 +45,7 @@ class TextExtractor(
         regex.findAll(this).map { matchResult -> matchResult.value.lowercase() }.toHashSet()
 
     suspend fun search(text: String): List<String> {
+        tracer.startTrace(SEARCH_TOKENS_TRACE_NAME)
         val parentContext = coroutineContext
         return withContext(dispatchersProvider.io() + searchTokensCoroutineName) {
             val searchTokens = text.toTokens()
@@ -57,6 +61,7 @@ class TextExtractor(
                 .filterNotNull()
 
             withContext(parentContext) {
+                tracer.stopTrace()
                 keys
             }
         }
@@ -69,5 +74,7 @@ class TextExtractor(
         val regex = Regex("\\b\\w+\\b")
         val processImagesCoroutineName = CoroutineName("ProcessImages")
         val searchTokensCoroutineName = CoroutineName("SearchTokens")
+        const val PROCESS_IMAGES_TRACE_NAME = "processImages"
+        const val SEARCH_TOKENS_TRACE_NAME = "searchTokens"
     }
 }
