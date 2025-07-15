@@ -1,14 +1,11 @@
 package org.sherlock
 
 import android.app.Application
-import org.sherlock.processor.AndroidDispatcherProvider
-import org.sherlock.processor.AndroidImageProcessor
-import org.sherlock.processor.AndroidTracer
-import org.sherlock.processor.TextExtractor
+import org.sherlock.processor.*
 
 class SherlockApplication : Application() {
 
-    lateinit var textExtractor: TextExtractor
+    lateinit var textExtractor: TextExtractor<AndroidImage>
         private set
 
     override fun onCreate() {

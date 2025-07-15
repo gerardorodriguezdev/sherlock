@@ -6,9 +6,6 @@ plugins {
 }
 
 kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xexpect-actual-classes")
-    }
     androidTarget()
     sourceSets {
         commonMain.dependencies {

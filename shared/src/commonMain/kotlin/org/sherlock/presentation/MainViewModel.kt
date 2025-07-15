@@ -10,12 +10,12 @@ import kotlinx.coroutines.launch
 import org.sherlock.processor.Image
 import org.sherlock.processor.TextExtractor
 
-class MainViewModel(private val textExtractor: TextExtractor) : ViewModel() {
+class MainViewModel<T : Image>(private val textExtractor: TextExtractor<T>) : ViewModel() {
     private var currentJob: Job? = null
 
     val images = mutableStateOf(persistentListOf<String>())
 
-    fun processImages(images: List<Image>) {
+    fun processImages(images: List<T>) {
         currentJob?.cancel()
 
         currentJob = viewModelScope.launch {

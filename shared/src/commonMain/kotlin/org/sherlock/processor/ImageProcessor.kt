@@ -1,5 +1,5 @@
 package org.sherlock.processor
 
-interface ImageProcessor {
-    suspend fun processImage(image: Image): String?
+interface ImageProcessor<T: Image> {
+    suspend fun processImage(image: T): String?
 }

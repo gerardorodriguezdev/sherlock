@@ -6,13 +6,13 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.coroutineContext
 
-class TextExtractor(
-    private val imageProcessor: ImageProcessor,
+class TextExtractor<T : Image>(
+    private val imageProcessor: ImageProcessor<T>,
     private val dispatchersProvider: DispatchersProvider,
     private val tracer: Tracer,
     private val entries: MutableMap<String, HashSet<String>> = mutableMapOf()
 ) {
-    suspend fun processImages(images: List<Image>) {
+    suspend fun processImages(images: List<T>) {
         tracer.startTrace(PROCESS_IMAGES_TRACE_NAME)
         entries.clear()
 
@@ -32,7 +32,7 @@ class TextExtractor(
         }
     }
 
-    private suspend fun Image.processImage(): Pair<String, HashSet<String>>? {
+    private suspend fun T.processImage(): Pair<String, HashSet<String>>? {
         val text = imageProcessor.processImage(this)
         val tokens = text?.toTokens()
 
