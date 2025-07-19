@@ -40,6 +40,8 @@ fun AppScreen(
     onSelectImagesClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    //TODO: Add top app bar
+    //TODO: Move not shared code to Android
     MaterialTheme {
         var dialogImage by remember { mutableStateOf<String?>(null) }
 
