@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var images: [Int] = Array(1...2)
+    @State var images: [Int]
     
     var body: some View {
         NavigationView {
@@ -59,6 +59,10 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
+#Preview("Empty") {
+    ContentView(images: [])
+}
+
+#Preview("Loaded") {
+    ContentView(images: [1,2])
 }
