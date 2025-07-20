@@ -2,7 +2,26 @@ import SwiftUI
 
 struct ContentView: View {
     @State var images: [Int]
-    
+
+    var body: some View {
+        TabView {
+            HomeView(images: images)
+                .tabItem {
+                    Label("Home", systemImage: "house")
+                }
+        }
+
+        //TODO: Open image picker on image click
+        //TODO: Process images on the background with reused code
+        //TODO: Search queries + keep textfield text on enter
+        //TODO: Do image big on click
+        //TODO: Make image zoomable?
+    }
+}
+
+private struct HomeView: View {
+    @State var images: [Int]
+
     var body: some View {
         NavigationView {
             VStack {
@@ -13,20 +32,12 @@ struct ContentView: View {
                 } else {
                     LoadedContent(images: images)
                 }
-            }
-            .navigationTitle("Sherlock")
+            }.navigationTitle("Sherlock")
         }
-        
-        //TODO: Add bottom nav (Home)
-        //TODO: Open image picker on image click
-        //TODO: Process images on the background with reused code
-        //TODO: Search queries + keep textfield text on enter
-        //TODO: Do image big on click
-        //TODO: Make image zoomable?
     }
 }
 
-private struct SearchSection : View {
+private struct SearchSection: View {
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
             TextField("Search...", text: .constant(""))
@@ -52,16 +63,16 @@ private struct ImageIcon: View {
     }
 }
 
-private struct EmptyContent : View {
+private struct EmptyContent: View {
     var body: some View {
         Text("No matches found")
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
-private struct LoadedContent : View {
+private struct LoadedContent: View {
     @State var images: [Int]
-    
+
     var body: some View {
         ScrollView {
             LazyVGrid(
@@ -89,5 +100,5 @@ private struct LoadedContent : View {
 }
 
 #Preview("Loaded") {
-    ContentView(images: [1,2])
+    ContentView(images: [1, 2])
 }
