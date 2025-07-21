@@ -9,7 +9,6 @@ import objcnames.protocols.MLKCompatibleImageProtocol
 import platform.Foundation.NSLog
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import cocoapods.GoogleMLKit.MLKCompatibleImageProtocol as GoogleMLKCompatibleImageProtocol
 
 @OptIn(ExperimentalForeignApi::class)
 class IosImageProcessor : ImageProcessor<IosImage> {
@@ -36,9 +35,10 @@ class IosImageProcessor : ImageProcessor<IosImage> {
             null
         }
 
+    @Suppress("UNCHECKED_CAST_TO_FORWARD_DECLARATION")
     private fun IosImage.toVisionImage(): MLKCompatibleImageProtocol {
         val visionImage = MLKVisionImage(uiImage)
         visionImage.orientation = uiImage.imageOrientation
-        return (visionImage as GoogleMLKCompatibleImageProtocol) as MLKCompatibleImageProtocol
+        return visionImage as MLKCompatibleImageProtocol
     }
 }
