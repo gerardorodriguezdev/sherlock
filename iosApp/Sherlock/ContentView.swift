@@ -15,6 +15,7 @@ struct ContentView: View {
 private struct HomeView: View {
     @State private var matchedImages: [Image] = []
     @State private var searchText: String = ""
+    @State private var selectedImage: ImageWrapper? = nil
 
     var body: some View {
         NavigationView {
@@ -27,10 +28,57 @@ private struct HomeView: View {
                 if matchedImages.isEmpty {
                     EmptyContent()
                 } else {
-                    LoadedContent(matchedImages: matchedImages)
+                    LoadedContent(
+                        matchedImages: matchedImages,
+                        onImageSelected: { image in
+                            selectedImage = ImageWrapper(image: image)
+                        }
+                    )
                 }
             }
             .navigationTitle("Sherlock")
+            .sheet(
+                item: $selectedImage,
+                content: { selectedImage in
+                    FullScreenImage(image: selectedImage.image)
+                }
+            )
+        }
+    }
+}
+
+private struct FullScreenImage: View {
+    @State var image: Image
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var scale: CGFloat = 1.0
+    @State private var lastScale: CGFloat = 1.0
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            image
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .scaleEffect(scale)
+                .gesture(
+                    MagnificationGesture()
+                        .onChanged { value in
+                            scale = lastScale * value
+                        }
+                        .onEnded { value in
+                            lastScale = scale
+                        }
+                )
+                .animation(.easeInOut(duration: 0.2), value: scale)
+                .edgesIgnoringSafeArea(.all)
+
+            Button(action: { dismiss() }) {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundColor(.black)
+                    .font(.largeTitle)
+                    .padding()
+            }
         }
     }
 }
@@ -76,6 +124,11 @@ private struct SearchSection: View {
     }
 }
 
+private struct ImageWrapper: Identifiable {
+    let id = UUID()
+    let image: Image
+}
+
 private struct ImageIcon: View {
     var body: some View {
         Image(systemName: "photo")
@@ -95,6 +148,7 @@ private struct EmptyContent: View {
 
 private struct LoadedContent: View {
     @State var matchedImages: [Image]
+    let onImageSelected: (Image) -> Void
 
     var body: some View {
         ScrollView {
@@ -106,7 +160,9 @@ private struct LoadedContent: View {
                 spacing: 16
             ) {
                 ForEach(0..<matchedImages.count, id: \.self) { index in
-                    Button(action: {}) {
+                    Button(action: {
+                        onImageSelected(matchedImages[index])
+                    }) {
                         matchedImages[index]
                             .resizable()
                             .frame(
