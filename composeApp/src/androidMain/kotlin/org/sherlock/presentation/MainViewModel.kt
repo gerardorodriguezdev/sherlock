@@ -7,15 +7,15 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.sherlock.processor.Image
+import org.sherlock.processor.AndroidImage
 import org.sherlock.processor.TextExtractor
 
-class MainViewModel<T : Image>(private val textExtractor: TextExtractor<T>) : ViewModel() {
+class MainViewModel(private val textExtractor: TextExtractor<AndroidImage>) : ViewModel() {
     private var currentJob: Job? = null
 
     val images = mutableStateOf(persistentListOf<String>())
 
-    fun processImages(images: List<T>) {
+    fun processImages(images: List<AndroidImage>) {
         currentJob?.cancel()
 
         currentJob = viewModelScope.launch {

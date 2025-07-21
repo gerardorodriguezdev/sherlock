@@ -5,6 +5,6 @@ import androidx.compose.ui.Modifier
 import coil3.compose.AsyncImage
 
 @Composable
-actual fun ImageComponent(key: String, contentDescription: String?, modifier: Modifier) {
+fun ImageComponent(key: String, contentDescription: String? = null, modifier: Modifier) {
     AsyncImage(model = key, contentDescription = contentDescription, modifier = modifier)
 }

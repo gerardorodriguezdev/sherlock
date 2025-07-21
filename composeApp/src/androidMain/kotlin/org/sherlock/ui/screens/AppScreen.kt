@@ -33,6 +33,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.sherlock.ui.components.ImageComponent
 import org.sherlock.ui.screens.AppScreenConstants.IMAGE_COMPONENT_CONTENT_TYPE
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AppScreen(
     images: ImmutableList<String>,
@@ -40,8 +41,6 @@ fun AppScreen(
     onSelectImagesClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    //TODO: Add top app bar
-    //TODO: Move not shared code to Android
     MaterialTheme {
         var dialogImage by remember { mutableStateOf<String?>(null) }
 
@@ -64,6 +63,12 @@ fun AppScreen(
                     .padding(top = 16.dp)
                     .safeDrawingPadding()
             ) {
+                Text(
+                    text = "Sherlock",
+                    style = MaterialTheme.typography.headlineLargeEmphasized,
+                    textAlign = TextAlign.Center,
+                )
+
                 SearchBar(
                     onSearchImage = onSearchImage,
                     onSelectImagesClicked = onSelectImagesClicked,

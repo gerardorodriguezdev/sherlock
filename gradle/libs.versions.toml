@@ -4,30 +4,28 @@ kmpCompose = "1.9.0-alpha03"
 kmpCoil = "3.2.0"
 kmpImmutable = "0.4.0"
 kmpViewModel = "2.9.1"
+kmpCoroutines = "1.10.2"
 jvmJunit = "4.13.2"
 androidAGP = "8.10.1"
 androidMinSdk = "35"
 androidTargetSdk = "35"
 androidActivity = "1.10.1"
 androidMLKit = "16.0.1"
-androidLeakCanary = "2.14"
 androidRunner = "1.5.2"
 androidBenchmark = "1.4.0-rc01"
 androidJunit = "1.2.1"
-androidOrchestrator = "1.5.1"
 
 [libraries]
 kmpCoil = { module = "io.coil-kt.coil3:coil-compose", version.ref = "kmpCoil" }
 kmpImmutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kmpImmutable" }
 kmpViewModel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "kmpViewModel" }
+kmpCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kmpCoroutines" }
 jvmJunit = { group = "junit", name = "junit", version.ref = "jvmJunit" }
 androidActivity = { module = "androidx.activity:activity-compose", version.ref = "androidActivity" }
 androidMLKit = { group = "com.google.mlkit", name = "text-recognition", version.ref = "androidMLKit" }
-androidLeakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "androidLeakCanary" }
 androidRunner = { group = "androidx.test", name = "runner", version.ref = "androidRunner" }
 androidJunit = { group = "androidx.test.ext", name = "junit", version.ref = "androidJunit" }
 androidBenchmark = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "androidBenchmark" }
-androidOrchestrator = { module = "androidx.test:orchestrator", version.ref = "androidOrchestrator" }
 
 [plugins]
 kmp = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kmp" }

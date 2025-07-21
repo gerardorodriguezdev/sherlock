@@ -15,7 +15,7 @@ import org.sherlock.processor.AndroidImage
 import org.sherlock.ui.screens.AppScreen
 
 class MainActivity : ComponentActivity() {
-    private val mainViewModel: MainViewModel<AndroidImage> by viewModels {
+    private val mainViewModel: MainViewModel by viewModels {
         viewModelFactory {
             initializer {
                 MainViewModel(textExtractor = (application as SherlockApplication).textExtractor)
