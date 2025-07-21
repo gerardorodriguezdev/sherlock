@@ -1,3 +1,7 @@
 package org.sherlock.processor
 
-class IosImage(override val key: String) : Image
+import platform.UIKit.UIImage
+
+class IosImage(
+    val uiImage: UIImage,
+) : Image
