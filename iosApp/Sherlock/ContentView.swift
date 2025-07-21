@@ -13,21 +13,21 @@ struct ContentView: View {
 }
 
 private struct HomeView: View {
-    @State private var images: [Image] = []
+    @State private var matchedImages: [Image] = []
     @State private var searchText: String = ""
 
     var body: some View {
         NavigationView {
             VStack {
                 SearchSection(
-                    images: $images,
+                    matchedImages: $matchedImages,
                     searchText: $searchText
                 )
 
-                if images.isEmpty {
+                if matchedImages.isEmpty {
                     EmptyContent()
                 } else {
-                    LoadedContent(images: images)
+                    LoadedContent(matchedImages: matchedImages)
                 }
             }
             .navigationTitle("Sherlock")
@@ -36,10 +36,10 @@ private struct HomeView: View {
 }
 
 private struct SearchSection: View {
-    @Binding var images: [Image]
+    @Binding var matchedImages: [Image]
     @Binding var searchText: String
 
-    @State private var photoPickerItems: [PhotosPickerItem] = []
+    @State private var selectedImages: [PhotosPickerItem] = []
 
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
@@ -47,7 +47,7 @@ private struct SearchSection: View {
                 .textFieldStyle(.roundedBorder)
 
             PhotosPicker(
-                selection: $photoPickerItems,
+                selection: $selectedImages,
                 matching: .images,
                 photoLibrary: .shared()
             ) {
@@ -55,12 +55,12 @@ private struct SearchSection: View {
             }
         }
         .padding(.horizontal, 16)
-        .onChange(of: photoPickerItems) {
+        .onChange(of: selectedImages) {
             Task {
                 var loadedImages: [Image] = []
 
-                for item in photoPickerItems {
-                    if let data = try? await item.loadTransferable(
+                for selectedImage in selectedImages {
+                    if let data = try? await selectedImage.loadTransferable(
                         type: Data.self
                     ),
                         let uiImage = UIImage(data: data)
@@ -70,7 +70,7 @@ private struct SearchSection: View {
                     }
                 }
 
-                images = loadedImages
+                matchedImages = loadedImages
             }
         }
     }
@@ -94,7 +94,7 @@ private struct EmptyContent: View {
 }
 
 private struct LoadedContent: View {
-    @State var images: [Image]
+    @State var matchedImages: [Image]
 
     var body: some View {
         ScrollView {
@@ -105,9 +105,9 @@ private struct LoadedContent: View {
                 ],
                 spacing: 16
             ) {
-                ForEach(0..<images.count, id: \.self) { index in
+                ForEach(0..<matchedImages.count, id: \.self) { index in
                     Button(action: {}) {
-                        images[index]
+                        matchedImages[index]
                             .resizable()
                             .frame(
                                 minWidth: 0,
