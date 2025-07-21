@@ -31,6 +31,7 @@ androidBenchmark = { group = "androidx.benchmark", name = "benchmark-junit4", ve
 kmp = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kmp" }
 kmpCompose = { id = "org.jetbrains.compose", version.ref = "kmpCompose" }
 kmpComposeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kmp" }
+nativeCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kmp"}
 androidApplication = { id = "com.android.application", version.ref = "androidAGP" }
 androidLibrary = { id = "com.android.library", version.ref = "androidAGP" }
 androidBenchmark = { id = "androidx.benchmark", version.ref = "androidBenchmark" }
