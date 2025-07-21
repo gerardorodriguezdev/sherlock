@@ -4,7 +4,7 @@ import SwiftUI
 struct SherlockApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(images: [])
+            ContentView()
         }
     }
 }

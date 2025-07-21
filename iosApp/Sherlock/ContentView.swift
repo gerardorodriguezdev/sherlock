@@ -1,52 +1,78 @@
+import PhotosUI
 import SwiftUI
 
 struct ContentView: View {
-    @State var images: [Int]
-
     var body: some View {
         TabView {
-            HomeView(images: images)
+            HomeView()
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
         }
-
-        //TODO: Open image picker on image click
-        //TODO: Process images on the background with reused code
-        //TODO: Search queries + keep textfield text on enter
-        //TODO: Do image big on click
-        //TODO: Make image zoomable?
     }
 }
 
 private struct HomeView: View {
-    @State var images: [Int]
+    @State private var images: [Image] = []
+    @State private var searchText: String = ""
 
     var body: some View {
         NavigationView {
             VStack {
-                SearchSection()
+                SearchSection(
+                    images: $images,
+                    searchText: $searchText
+                )
 
                 if images.isEmpty {
                     EmptyContent()
                 } else {
                     LoadedContent(images: images)
                 }
-            }.navigationTitle("Sherlock")
+            }
+            .navigationTitle("Sherlock")
         }
     }
 }
 
 private struct SearchSection: View {
+    @Binding var images: [Image]
+    @Binding var searchText: String
+
+    @State private var photoPickerItems: [PhotosPickerItem] = []
+
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
-            TextField("Search...", text: .constant(""))
+            TextField("Search...", text: $searchText)
                 .textFieldStyle(.roundedBorder)
-            Button(action: {}) {
+
+            PhotosPicker(
+                selection: $photoPickerItems,
+                matching: .images,
+                photoLibrary: .shared()
+            ) {
                 ImageIcon()
             }
         }
         .padding(.horizontal, 16)
+        .onChange(of: photoPickerItems) {
+            Task {
+                var loadedImages: [Image] = []
+
+                for item in photoPickerItems {
+                    if let data = try? await item.loadTransferable(
+                        type: Data.self
+                    ),
+                        let uiImage = UIImage(data: data)
+                    {
+                        let image = Image(uiImage: uiImage)
+                        loadedImages.append(image)
+                    }
+                }
+
+                images = loadedImages
+            }
+        }
     }
 }
 
@@ -54,12 +80,9 @@ private struct ImageIcon: View {
     var body: some View {
         Image(systemName: "photo")
             .font(.system(size: 24))
-            .foregroundColor(.white)
+            .foregroundColor(.accentColor)
             .frame(width: 48, height: 48)
-            .background {
-                Circle()
-                    .fill(Color.blue)
-            }
+            .symbolRenderingMode(.multicolor)
     }
 }
 
@@ -71,34 +94,41 @@ private struct EmptyContent: View {
 }
 
 private struct LoadedContent: View {
-    @State var images: [Int]
+    @State var images: [Image]
 
     var body: some View {
         ScrollView {
             LazyVGrid(
                 columns: [
-                    GridItem(.flexible()),
-                    GridItem(.flexible()),
+                    GridItem(.flexible(), spacing: 8),
+                    GridItem(.flexible(), spacing: 8),
                 ],
-                spacing: 8
+                spacing: 16
             ) {
-                ForEach(images, id: \.self) { _ in
+                ForEach(0..<images.count, id: \.self) { index in
                     Button(action: {}) {
-                        Image(systemName: "photo")
+                        images[index]
                             .resizable()
-                            .scaledToFill()
+                            .frame(
+                                minWidth: 0,
+                                maxWidth: .infinity,
+                                minHeight: 0,
+                                maxHeight: .infinity
+                            )
+                            .clipped()
+                            .aspectRatio(1, contentMode: .fit)
                     }
                 }
             }
             .padding(.horizontal, 16)
-        }
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
 #Preview("Empty") {
-    ContentView(images: [])
+    ContentView()
 }
 
 #Preview("Loaded") {
-    ContentView(images: [1, 2])
+    ContentView()
 }
