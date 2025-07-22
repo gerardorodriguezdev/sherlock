@@ -6,13 +6,22 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		19C6D05B88005842AF8EC311 /* Pods_Sherlock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 009076C7A7290E4E0AA3DE34 /* Pods_Sherlock.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		009076C7A7290E4E0AA3DE34 /* Pods_Sherlock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sherlock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A77EA832E25702B009EC96F /* Sherlock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sherlock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BB04F9C23C41B3C3148C374 /* Pods-Sherlock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sherlock.release.xcconfig"; path = "Target Support Files/Pods-Sherlock/Pods-Sherlock.release.xcconfig"; sourceTree = "<group>"; };
+		E3A1B055028E36529F1151E5 /* Pods-Sherlock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sherlock.debug.xcconfig"; path = "Target Support Files/Pods-Sherlock/Pods-Sherlock.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4A77EA852E25702B009EC96F /* Sherlock */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = Sherlock;
 			sourceTree = "<group>";
 		};
@@ -23,17 +32,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19C6D05B88005842AF8EC311 /* Pods_Sherlock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		337D9923D0944B026E7DB76F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				009076C7A7290E4E0AA3DE34 /* Pods_Sherlock.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4A77EA7A2E25702B009EC96F = {
 			isa = PBXGroup;
 			children = (
 				4A77EA852E25702B009EC96F /* Sherlock */,
 				4A77EA842E25702B009EC96F /* Products */,
+				F2244BE2B8470BE3036FC128 /* Pods */,
+				337D9923D0944B026E7DB76F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -45,6 +65,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F2244BE2B8470BE3036FC128 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E3A1B055028E36529F1151E5 /* Pods-Sherlock.debug.xcconfig */,
+				4BB04F9C23C41B3C3148C374 /* Pods-Sherlock.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -52,9 +81,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4A77EA8E2E25702B009EC96F /* Build configuration list for PBXNativeTarget "Sherlock" */;
 			buildPhases = (
+				B23C6ADAF78A72CEAD1E42DB /* [CP] Check Pods Manifest.lock */,
 				4A77EA7F2E25702B009EC96F /* Sources */,
 				4A77EA802E25702B009EC96F /* Frameworks */,
 				4A77EA812E25702B009EC96F /* Resources */,
+				BCBD29D1801DD9AFE965CED1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -64,8 +95,6 @@
 				4A77EA852E25702B009EC96F /* Sherlock */,
 			);
 			name = Sherlock;
-			packageProductDependencies = (
-			);
 			productName = Sherlock;
 			productReference = 4A77EA832E25702B009EC96F /* Sherlock.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +142,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B23C6ADAF78A72CEAD1E42DB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sherlock-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BCBD29D1801DD9AFE965CED1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sherlock/Pods-Sherlock-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sherlock/Pods-Sherlock-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sherlock/Pods-Sherlock-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A77EA7F2E25702B009EC96F /* Sources */ = {
@@ -248,6 +319,7 @@
 		};
 		4A77EA8F2E25702B009EC96F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3A1B055028E36529F1151E5 /* Pods-Sherlock.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -255,6 +327,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2D76QGBXTA;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -276,6 +349,7 @@
 		};
 		4A77EA902E25702B009EC96F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4BB04F9C23C41B3C3148C374 /* Pods-Sherlock.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -283,6 +357,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2D76QGBXTA;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

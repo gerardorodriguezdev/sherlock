@@ -1,11 +1,11 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'shared'
-    spec.version                  = '1.16.2'
-    spec.homepage                 = 'https://developers.google.com/ml-kit/vision/text-recognition/v2/ios#objc'
+    spec.version                  = '2.0'
+    spec.homepage                 = 'https://github.com/gerardorodriguezdev/sherlock'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Kotlin sample project with CocoaPods dependencies'
+    spec.summary                  = 'Kotlin Multiplatform Google MLKit text recognition implementation'
     spec.vendored_frameworks      = 'build/cocoapods/framework/shared.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '16.0'

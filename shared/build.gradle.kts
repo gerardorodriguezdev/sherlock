@@ -14,10 +14,9 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "Kotlin sample project with CocoaPods dependencies"
-        homepage = "https://developers.google.com/ml-kit/vision/text-recognition/v2/ios#objc"
-        version = "1.16.2"
-
+        version = "2.0"
+        summary = "Kotlin Multiplatform Google MLKit text recognition implementation"
+        homepage = "https://github.com/gerardorodriguezdev/sherlock"
         ios.deploymentTarget = "16.0"
 
         pod("GoogleMLKit/Vision") {
@@ -28,6 +27,13 @@ kotlin {
         pod("GoogleMLKit/TextRecognitionCommon") {
             moduleName = "MLKitTextRecognitionCommon"
             version = "9.0.0"
+        }
+
+        podfile = project.file("../iosApp/Podfile")
+
+        framework {
+            baseName = "shared"
+            isStatic = true
         }
     }
 
