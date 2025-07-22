@@ -1,3 +1,5 @@
 package org.sherlock.processor
 
-interface Image
+interface Image {
+    val key: String
+}
