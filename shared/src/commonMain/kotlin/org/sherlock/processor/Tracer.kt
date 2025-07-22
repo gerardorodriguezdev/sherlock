@@ -9,3 +9,5 @@ class EmptyTracer : Tracer {
     override fun startTrace(name: String) {}
     override fun stopTrace() {}
 }
+
+expect fun tracer(): Tracer

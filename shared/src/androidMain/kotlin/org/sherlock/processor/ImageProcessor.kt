@@ -10,11 +10,11 @@ import java.io.IOException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class AndroidImageProcessor(private val applicationContext: Context) : ImageProcessor<AndroidImage> {
+actual class ImageProcessor(private val applicationContext: Context) {
 
     private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-    override suspend fun processImage(image: AndroidImage): String? =
+    actual suspend fun processImage(image: Image): String? =
         try {
             val inputImage = InputImage.fromFilePath(applicationContext, image.uri)
             suspendCancellableCoroutine { continuation ->

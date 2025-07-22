@@ -1,5 +1,5 @@
 package org.sherlock.processor
 
-interface Image {
+expect class Image {
     val key: String
 }

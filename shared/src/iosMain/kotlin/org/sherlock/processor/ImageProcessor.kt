@@ -11,10 +11,10 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 @OptIn(ExperimentalForeignApi::class)
-class IosImageProcessor : ImageProcessor<IosImage> {
+actual class ImageProcessor {
     private val recognizer = MLKTextRecognizer.textRecognizerWithOptions(MLKCommonTextRecognizerOptions())
 
-    override suspend fun processImage(image: IosImage): String? =
+    actual suspend fun processImage(image: Image): String? =
         try {
             val visionImage = image.toVisionImage()
             suspendCancellableCoroutine { continuation ->
@@ -36,7 +36,7 @@ class IosImageProcessor : ImageProcessor<IosImage> {
         }
 
     @Suppress("UNCHECKED_CAST_TO_FORWARD_DECLARATION")
-    private fun IosImage.toVisionImage(): MLKCompatibleImageProtocol {
+    private fun Image.toVisionImage(): MLKCompatibleImageProtocol {
         val visionImage = MLKVisionImage(uiImage)
         visionImage.orientation = uiImage.imageOrientation
         return visionImage as MLKCompatibleImageProtocol

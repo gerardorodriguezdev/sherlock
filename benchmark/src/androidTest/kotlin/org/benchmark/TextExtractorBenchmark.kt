@@ -12,7 +12,10 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.sherlock.processor.*
+import org.sherlock.processor.EmptyTracer
+import org.sherlock.processor.Image
+import org.sherlock.processor.ImageProcessor
+import org.sherlock.processor.TextExtractor
 import java.io.File
 import java.io.FileOutputStream
 
@@ -23,14 +26,13 @@ class TextExtractorBenchmark {
     @get:Rule
     val benchmarkRule = BenchmarkRule()
 
-    private lateinit var textExtractor: TextExtractor<AndroidImage>
+    private lateinit var textExtractor: TextExtractor
     private val entries = mutableMapOf<String, HashSet<String>>()
 
     @Before
     fun setUp() {
         textExtractor = TextExtractor(
-            imageProcessor = AndroidImageProcessor(InstrumentationRegistry.getInstrumentation().targetContext),
-            dispatchersProvider = AndroidDispatcherProvider(),
+            imageProcessor = ImageProcessor(InstrumentationRegistry.getInstrumentation().targetContext),
             tracer = EmptyTracer(),
             entries = entries,
         )
@@ -68,7 +70,7 @@ class TextExtractorBenchmark {
         }
     }
 
-    private fun images(): List<AndroidImage> = buildList {
+    private fun images(): List<Image> = buildList {
         repeat(5) { index ->
             val imageName = imageName(index)
             val inputStream = javaClass.classLoader?.getResourceAsStream(imageName)
@@ -79,7 +81,7 @@ class TextExtractorBenchmark {
                     input.copyTo(output)
                 }
             }
-            add(AndroidImage(uri = Uri.fromFile(cacheFile)))
+            add(Image(uri = Uri.fromFile(cacheFile)))
         }
     }
 

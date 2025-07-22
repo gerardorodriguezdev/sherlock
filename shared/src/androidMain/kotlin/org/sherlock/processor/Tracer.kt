@@ -2,7 +2,7 @@ package org.sherlock.processor
 
 import android.os.Debug
 
-class AndroidTracer : Tracer {
+private class AndroidTracer : Tracer {
     override fun startTrace(name: String) {
         Debug.startMethodTracing(name)
     }
@@ -11,3 +11,5 @@ class AndroidTracer : Tracer {
         Debug.stopMethodTracing()
     }
 }
+
+actual fun tracer(): Tracer = AndroidTracer()

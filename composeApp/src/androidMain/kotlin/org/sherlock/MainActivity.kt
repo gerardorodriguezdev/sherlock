@@ -11,7 +11,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import org.sherlock.presentation.MainViewModel
-import org.sherlock.processor.AndroidImage
+import org.sherlock.processor.Image
 import org.sherlock.ui.screens.AppScreen
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
     private val selectImages = registerForActivityResult(
         contract = PickMultipleVisualMedia(),
         callback = { uris ->
-            val images = uris.map { uri -> AndroidImage(uri = uri) }
+            val images = uris.map { uri -> Image(uri = uri) }
             mainViewModel.processImages(images)
         }
     )

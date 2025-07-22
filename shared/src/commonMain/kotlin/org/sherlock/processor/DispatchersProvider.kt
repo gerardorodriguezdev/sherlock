@@ -6,3 +6,5 @@ interface DispatchersProvider {
     fun io(): CoroutineDispatcher
     fun ui(): CoroutineDispatcher
 }
+
+expect fun dispatchersProvider(): DispatchersProvider

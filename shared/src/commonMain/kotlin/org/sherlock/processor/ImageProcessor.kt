@@ -1,5 +1,5 @@
 package org.sherlock.processor
 
-interface ImageProcessor<T: Image> {
-    suspend fun processImage(image: T): String?
+expect class ImageProcessor {
+    suspend fun processImage(image: Image): String?
 }
