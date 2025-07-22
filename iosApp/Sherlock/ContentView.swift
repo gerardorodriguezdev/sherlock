@@ -108,6 +108,8 @@ private struct SearchSection: View {
                 var loadedImages: [Image] = []
 
                 for selectedImage in selectedImages {
+                    let imageIdentifier = selectedImage.itemIdentifier
+                    
                     if let data = try? await selectedImage.loadTransferable(
                         type: Data.self
                     ),
