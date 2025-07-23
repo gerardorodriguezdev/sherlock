@@ -1,6 +1,10 @@
 # Sherlock
 
-Mobile app that uses ML Kit text recognition to extract text from images and search through them
+KMP Mobile app that uses ML Kit text recognition to extract text from images and search through them
+
+## Features
+- Native UIs (Compose for Android, SwiftUI for iOS)
+- Shared text recognition logic using KMP
 
 ## How It Works
 
